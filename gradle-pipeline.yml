@@ -1,0 +1,41 @@
+trigger:
+- none
+
+parameters:
+  - name: variablesGroup
+    displayName: Variables de Ambiente
+    type: string
+    default: 'gradle-DEV'
+    values:
+      - gradle-DEV
+      - gradle-PRD
+
+resources:
+  repositories:
+    - repository: templates
+      name: Release Management/Pruebas
+      type: git
+
+variables:
+- group: ${{ parameters.variablesGroup }}
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  jobs:
+  - template: gradle-template.yml@templates
+    parameters:
+      gradleOptions: $(gradleOptions)
+      javaHomeOption: $(javaHomeOption)
+      jdkVersionOption: $(jdkVersionOption)
+      jdkArchitectureOption: $(jdkArchitectureOption)
+      artifactName: $(artifactName)
+      packageLocation: $(packageLocation)
+
+- stage: Deploy
+  jobs:
+  - template: gradle-deploy-template.yml@templates
+    parameters:
+      artifactName: $(artifactName)
