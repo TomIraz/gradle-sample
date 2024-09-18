@@ -16,6 +16,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int target = -5;
+        int num = 3;
+
+        target =- num;  // Noncompliant: target = -3. Is that the intended behavior?
+        target =+ num;
         setContentView(R.layout.activity_main);
 
         num1 = findViewById(R.id.num1Text);
