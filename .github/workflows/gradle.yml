@@ -54,7 +54,7 @@ jobs:
           cd ./loc
           sudo chmod +x filesystem.sh
           ./filesystem.sh $GITHUB_WORKSPACE
-          cat Report_expanded.txt
+          cat Report_gradle-sample.txt
 
       - name: Build and analyze
         env:
