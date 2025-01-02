@@ -46,6 +46,16 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
+      - name: Count Lines of Code
+        run: |
+          echo "Calculo de lineas de codigo"
+          sudo apt-get install -y curl jq cloc
+          git clone https://github.com/SonarSource/sonar-loc-count.git ./loc
+          cd ./loc
+          sudo chmod +x filesystem.sh
+          ./filesystem.sh $GITHUB_WORKSPACE
+          cat Report_expanded.txt
+
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
